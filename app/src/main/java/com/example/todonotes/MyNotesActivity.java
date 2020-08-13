@@ -2,6 +2,7 @@ package com.example.todonotes;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,14 +15,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.todonotes.model.Notes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+
 public class MyNotesActivity extends AppCompatActivity {
+    String TAG = "MyNotesActivity";
     FloatingActionButton fabAddNotes;
     String fullName;
     String userName;
-    TextView textViewTitle, textViewDescription;
+    RecyclerView recyclerViewNotes;
     SharedPreferences sharedPreferences;
+    ArrayList<Notes> notesList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,17 +64,13 @@ public class MyNotesActivity extends AppCompatActivity {
 
     private void bindView() {
         fabAddNotes = findViewById(R.id.fabAddNotes);
-        textViewTitle = findViewById(R.id.textViewTitle);
-        textViewTitle.setEnabled(false);
-        textViewDescription = findViewById(R.id.textViewDescription);
-        textViewDescription.setEnabled(false);
+        recyclerViewNotes = findViewById(R.id.recyclerViewNotes);
     }
 
     private void setupDialogBox() {
         View view = LayoutInflater.from(MyNotesActivity.this).inflate(R.layout.add_notes_dialog_layout, null);
         // view group here is NULL
         // now access the editFields
-
         final EditText editTextTitle = view.findViewById(R.id.textInputEditTitle);
         final EditText editTextDescription = view.findViewById(R.id.textInputEditDescription);
         Button buttonSubmit = view.findViewById(R.id.buttonAddNotes);
@@ -85,9 +87,12 @@ public class MyNotesActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String title = editTextTitle.getText().toString();
                 String description = editTextDescription.getText().toString();
-                Log.d("NoteActivity", "title");
-                textViewTitle.setText(title);
-                textViewDescription.setText(description);
+
+                Notes notes = new Notes();
+                notes.setTitle(title);
+                notes.setDescription(description);
+                notesList.add(notes);
+                Log.d(TAG, notesList.toString());
                 dialog.hide();
             }
         });
