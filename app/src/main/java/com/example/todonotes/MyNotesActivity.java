@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.todonotes.adapter.NotesAdapter;
+import com.example.todonotes.clickListener.ItemClickListener;
 import com.example.todonotes.model.Notes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -96,7 +97,6 @@ public class MyNotesActivity extends AppCompatActivity {
                 notes.setDescription(description);
                 notesList.add(notes);
                 Log.d(TAG, notesList.toString());
-
                 setupRecyclerView();
 
                 dialog.hide();
@@ -106,7 +106,13 @@ public class MyNotesActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView() {
-        NotesAdapter notesAdapter = new NotesAdapter(notesList);
+        ItemClickListener itemClickListener = new ItemClickListener() {
+            @Override
+            public void onClick() {
+                Log.d(TAG, "On click worked");
+            }
+        };
+        NotesAdapter notesAdapter = new NotesAdapter(notesList, itemClickListener);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MyNotesActivity.this);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerViewNotes.setLayoutManager(linearLayoutManager);

@@ -10,15 +10,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todonotes.MyNotesActivity;
 import com.example.todonotes.R;
+import com.example.todonotes.clickListener.ItemClickListener;
 import com.example.todonotes.model.Notes;
 
 import java.util.List;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
     List<Notes> listNotes;
+    ItemClickListener itemClickListener;
 
-    public NotesAdapter(List<Notes> list){
+    public NotesAdapter(List<Notes> list, ItemClickListener itemClickListener){
         this.listNotes = list;
+        this.itemClickListener = itemClickListener;
     }
 
     @NonNull
@@ -35,6 +38,12 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
         String description = notes.getDescription();
         holder.textViewTitle.setText(title);
         holder.textViewDescription.setText(description);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                itemClickListener.onClick();
+            }
+        });
     }
 
     @Override
@@ -44,7 +53,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         TextView textViewTitle, textViewDescription;
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.textViewTitle);
