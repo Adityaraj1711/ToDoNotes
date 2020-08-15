@@ -16,11 +16,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.todonotes.adapter.NotesAdapter;
 import com.example.todonotes.clickListener.ItemClickListener;
 import com.example.todonotes.model.Notes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,12 +94,15 @@ public class MyNotesActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String title = editTextTitle.getText().toString();
                 String description = editTextDescription.getText().toString();
-
-                Notes notes = new Notes();
-                notes.setTitle(title);
-                notes.setDescription(description);
-                notesList.add(notes);
-                Log.d(TAG, notesList.toString());
+                if(!TextUtils.isEmpty(title) && !(TextUtils.isEmpty(description))) {
+                    Notes notes = new Notes();
+                    notes.setTitle(title);
+                    notes.setDescription(description);
+                    notesList.add(notes);
+                    Log.d(TAG, notesList.toString());
+                } else {
+                    Toast.makeText(MyNotesActivity.this, "Empty title or description", Toast.LENGTH_SHORT).show();
+                }
                 setupRecyclerView();
 
                 dialog.hide();
