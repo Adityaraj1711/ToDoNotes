@@ -108,8 +108,9 @@ public class MyNotesActivity extends AppCompatActivity {
     private void setupRecyclerView() {
         ItemClickListener itemClickListener = new ItemClickListener() {
             @Override
-            public void onClick() {
+            public void onClick(Notes notes) {
                 Log.d(TAG, "On click worked");
+                Log.d(TAG, notes.getTitle().toUpperCase());
             }
         };
         NotesAdapter notesAdapter = new NotesAdapter(notesList, itemClickListener);

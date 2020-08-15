@@ -1,5 +1,7 @@
 package com.example.todonotes.clickListener;
 
+import com.example.todonotes.model.Notes;
+
 public interface ItemClickListener {
-    void onClick();
+    void onClick(Notes notes);
 }
