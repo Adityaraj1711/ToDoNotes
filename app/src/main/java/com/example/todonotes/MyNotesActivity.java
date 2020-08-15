@@ -2,6 +2,7 @@ package com.example.todonotes;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -13,12 +14,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.todonotes.adapter.NotesAdapter;
 import com.example.todonotes.model.Notes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyNotesActivity extends AppCompatActivity {
     String TAG = "MyNotesActivity";
@@ -80,7 +84,6 @@ public class MyNotesActivity extends AppCompatActivity {
                 .setView(view)
 //                .setCancelable(false) // this method is used if we want to close the dialog only on submitting
                 .create();
-        dialog.show();
 
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,8 +96,21 @@ public class MyNotesActivity extends AppCompatActivity {
                 notes.setDescription(description);
                 notesList.add(notes);
                 Log.d(TAG, notesList.toString());
+
+                setupRecyclerView();
+
                 dialog.hide();
             }
         });
+        dialog.show();
     }
+
+    private void setupRecyclerView() {
+        NotesAdapter notesAdapter = new NotesAdapter(notesList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MyNotesActivity.this);
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerViewNotes.setLayoutManager(linearLayoutManager);
+        recyclerViewNotes.setAdapter(notesAdapter);
+    }
+
 }
