@@ -111,6 +111,11 @@ public class MyNotesActivity extends AppCompatActivity {
             public void onClick(Notes notes) {
                 Log.d(TAG, "On click worked");
                 Log.d(TAG, notes.getTitle().toUpperCase());
+                Intent intent = new Intent(MyNotesActivity.this, DetailActivity.class);
+                intent.putExtra(AppConstant.TITLE, notes.getTitle());
+                intent.putExtra(AppConstant.DESCRIPTION, notes.getDescription());
+                startActivity(intent);
+
             }
         };
         NotesAdapter notesAdapter = new NotesAdapter(notesList, itemClickListener);
