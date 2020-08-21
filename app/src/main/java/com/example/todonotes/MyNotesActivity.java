@@ -14,8 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.todonotes.adapter.NotesAdapter;
@@ -23,10 +21,7 @@ import com.example.todonotes.clickListener.ItemClickListener;
 import com.example.todonotes.model.Notes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class MyNotesActivity extends AppCompatActivity {
     String TAG = "MyNotesActivity";

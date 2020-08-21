@@ -8,7 +8,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.todonotes.MyNotesActivity;
 import com.example.todonotes.R;
 import com.example.todonotes.clickListener.ItemClickListener;
 import com.example.todonotes.model.Notes;
@@ -17,6 +16,7 @@ import java.util.List;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
     List<Notes> listNotes;
+
     ItemClickListener itemClickListener;
 
     public NotesAdapter(List<Notes> list, ItemClickListener itemClickListener){
