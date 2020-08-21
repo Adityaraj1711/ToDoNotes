@@ -1,9 +1,11 @@
-package com.example.todonotes
+package com.example.todonotes.view
 
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.todonotes.util.AppConstant
+import com.example.todonotes.R
 
 class DetailActivity: AppCompatActivity() {
     var TAG = "DetailActivity"

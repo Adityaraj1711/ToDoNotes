@@ -1,4 +1,4 @@
-package com.example.todonotes
+package com.example.todonotes.view
 
 import android.content.Context
 import android.content.Intent
@@ -9,12 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.todonotes.util.AppConstant
+import com.example.todonotes.util.PrefConstant
+import com.example.todonotes.R
 import com.example.todonotes.adapter.NotesAdapter
 import com.example.todonotes.clickListener.ItemClickListener
 import com.example.todonotes.model.Notes
