@@ -47,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
                     // so here we will use shared pref to store the state of logged in user
                     saveLoginStatus();
                     saveFullNameUserName(fullName, userName);
-
                 } else {
                     Toast.makeText(LoginActivity.this, "Full name and Username required", Toast.LENGTH_SHORT).show();
                 }
