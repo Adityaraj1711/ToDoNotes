@@ -105,7 +105,10 @@ public class MyNotesActivity : AppCompatActivity(){
             }
 
             override fun onUpdate(notes: Notes) {
-
+                Log.d(TAG, notes.isTaskCompleted.toString())
+                val notesApp = applicationContext as NotesApp
+                val notesDao = notesApp.getNotesDb().notesDao()
+                notesDao.updateNotes(notes)
             }
         }
         val notesAdapter = NotesAdapter(notesList, itemClickListener)

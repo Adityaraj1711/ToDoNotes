@@ -1,5 +1,6 @@
 package com.example.todonotes.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import com.example.todonotes.db.Notes
 
 
 class NotesAdapter(val list: List<Notes>, val itemClickListener: ItemClickListener): RecyclerView.Adapter<NotesAdapter.ViewHolder>(){
+    val TAG = "NotesAdapter"
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.notes_adapter_layout, parent, false)
         return ViewHolder(view)
@@ -34,12 +36,15 @@ class NotesAdapter(val list: List<Notes>, val itemClickListener: ItemClickListen
             }
         })
 
+        holder.checkBoxMarkStatus.isChecked = notes.isTaskCompleted
+
         holder.checkBoxMarkStatus.setOnCheckedChangeListener(object: CompoundButton.OnCheckedChangeListener {
             override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+                Log.d(TAG, isChecked.toString())
+                notes.isTaskCompleted = isChecked
                 itemClickListener.onUpdate(notes)
             }
         })
-
     }
 
     inner class ViewHolder(itemView:View): RecyclerView.ViewHolder(itemView){
