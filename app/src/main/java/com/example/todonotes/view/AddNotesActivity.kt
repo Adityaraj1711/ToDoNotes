@@ -2,11 +2,14 @@ package com.example.todonotes.view
 
 import android.accounts.AuthenticatorDescription
 import android.app.Activity
+import android.app.PictureInPictureParams
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Picture
 import android.media.Image
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,10 +23,16 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
+import com.example.todonotes.BuildConfig
 import com.example.todonotes.R
 import kotlinx.android.synthetic.main.activity_add_notes.*
 import org.w3c.dom.Text
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class AddNotesActivity : AppCompatActivity() {
     val TAG = "AddNotesActivity"
@@ -50,7 +59,6 @@ class AddNotesActivity : AppCompatActivity() {
                 if(checkAndRequestPermission()){
                     setupDialog()
                 }
-
             }
         })
     }
@@ -66,11 +74,23 @@ class AddNotesActivity : AppCompatActivity() {
         if(storagePermission != PackageManager.PERMISSION_GRANTED){
             listPermissionNeeded.add(android.Manifest.permission.READ_EXTERNAL_STORAGE)
         }
-        if(!listPermissionNeeded.isEmpty()){
+        if(listPermissionNeeded.isNotEmpty()){
             ActivityCompat.requestPermissions(this, listPermissionNeeded.toTypedArray<String>(), MY_PERMISSION_CODE)
             return false
         }
         return true
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when(requestCode){
+            MY_PERMISSION_CODE -> {
+                if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    // now permission is granted
+                    setupDialog()
+                }
+            }
+        }
     }
 
     private fun setupDialog() {
@@ -83,18 +103,40 @@ class AddNotesActivity : AppCompatActivity() {
                 .create()
         textViewCamera.setOnClickListener(object: View.OnClickListener{
             override fun onClick(p0: View?) {
-                //
+                val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                var photoFile: File? = createImage()
+                if(photoFile != null){
+                    // it will search for <photoFile> using <BuildConfig> provider authority in the <this> context
+                    val photoURI = FileProvider.getUriForFile(this@AddNotesActivity, BuildConfig.APPLICATION_ID + ".provider", photoFile)
+                    // now we will assign this uri to picturePath
+                    picturePath = photoFile.absolutePath
+                    Log.d(TAG, picturePath)
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(takePictureIntent, REQUEST_CODE_CAMERA)
+                    dialog.hide()
+                }
             }
         })
+
         textViewGallery.setOnClickListener(object : View.OnClickListener{
             override fun onClick(p0: View?) {
                 // two types of intent -> implicit and explicit
                 val intent = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 startActivityForResult(intent, REQUEST_CODE_GALLERY)
+                dialog.hide()
             }
 
         })
         dialog.show()
+    }
+
+    private fun createImage(): File? {
+        val timeStamp = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
+        val fileName = "JPEG_"+ timeStamp + "_"
+        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+
+        // this will return the file name, the extension we need and the directory we want to store
+        return File.createTempFile(fileName, ".jpg", storageDir)
     }
 
     private fun bindViews() {
@@ -126,7 +168,7 @@ class AddNotesActivity : AppCompatActivity() {
                     Glide.with(this).load(picturePath).into(imageViewNotes)
                 }
                 REQUEST_CODE_CAMERA -> {
-
+                    Glide.with(this).load(picturePath).into(imageViewNotes)
                 }
             }
         }
