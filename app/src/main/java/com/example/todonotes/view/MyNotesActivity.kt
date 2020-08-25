@@ -28,6 +28,7 @@ public class MyNotesActivity : AppCompatActivity(){
     val TAG = "MyNotesActivity"
     var fullName: String = ""
     var userName: String = ""
+    val ADD_NOTES_CODE = 100
     lateinit var fabAddNotes: FloatingActionButton
     lateinit var recyclerView: RecyclerView
     lateinit var sharedPreferences: SharedPreferences
@@ -42,21 +43,15 @@ public class MyNotesActivity : AppCompatActivity(){
         Log.d("MyNotesActivity", "onCreate")
         getDataFromDatabase()
         // before we were submitting to recycler view when we enter in dialog, but now we call it from onCreate
-
         setupRecyclerView()
         supportActionBar?.title = fullName
         fabAddNotes.setOnClickListener(object : View.OnClickListener{
             override fun onClick(p0: View?) {
-                setupDialogBox()
+//                setupDialogBox()
+                val intent = Intent(this@MyNotesActivity, AddNotesActivity::class.java)
+                startActivityForResult(intent, ADD_NOTES_CODE)
             }
         })
-    }
-
-    private fun getDataFromDatabase() {
-        val notesApp = applicationContext as NotesApp
-        val notesDao = notesApp.getNotesDb().notesDao()
-        Log.d(TAG, notesDao.getAll().size.toString())
-        notesList.addAll(notesDao.getAll())
     }
 
     private fun setupDialogBox() {
@@ -68,7 +63,6 @@ public class MyNotesActivity : AppCompatActivity(){
                 .setView(view)
                 .setCancelable(false)
                 .create()
-
         buttonSubmit.setOnClickListener(object: View.OnClickListener{
             override fun onClick(v: View?) {
                 val title = editTextTitle.text.toString()
@@ -80,12 +74,19 @@ public class MyNotesActivity : AppCompatActivity(){
                 } else {
                     Toast.makeText(this@MyNotesActivity, "Title or description missing", Toast.LENGTH_SHORT)
                 }
-
                 dialog.hide()
             }
         })
         dialog.show()
     }
+
+    private fun getDataFromDatabase() {
+        val notesApp = applicationContext as NotesApp
+        val notesDao = notesApp.getNotesDb().notesDao()
+        Log.d(TAG, notesDao.getAll().size.toString())
+        notesList.addAll(notesDao.getAll())
+    }
+
 
     private fun addNotesToDb(notes: Notes) {
         // insert notes in DB
