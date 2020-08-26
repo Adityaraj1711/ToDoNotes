@@ -18,5 +18,8 @@ interface NotesDao{
     fun updateNotes(notes: Notes)
     @Delete
     fun delete(notes: Notes)
+
+    @Query("DELETE from notesData where isTaskCompleted = :status")
+    fun deleteNotes(status: Boolean)
 }
 
