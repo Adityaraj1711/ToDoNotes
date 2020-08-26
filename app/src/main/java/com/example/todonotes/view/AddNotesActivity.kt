@@ -27,6 +27,7 @@ import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.example.todonotes.BuildConfig
 import com.example.todonotes.R
+import com.example.todonotes.util.AppConstant
 import kotlinx.android.synthetic.main.activity_add_notes.*
 import org.w3c.dom.Text
 import java.io.File
@@ -59,6 +60,17 @@ class AddNotesActivity : AppCompatActivity() {
                 if(checkAndRequestPermission()){
                     setupDialog()
                 }
+            }
+        })
+
+        buttonSubmit.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(p0: View?) {
+                val intent = Intent()
+                intent.putExtra(AppConstant.TITLE, editTextTitle.text.toString())
+                intent.putExtra(AppConstant.DESCRIPTION, editTextDescription.text.toString())
+                intent.putExtra(AppConstant.IMAGE_PATH, picturePath)
+                setResult(Activity.RESULT_OK, intent)
+                finish()
             }
         })
     }
@@ -127,7 +139,9 @@ class AddNotesActivity : AppCompatActivity() {
             }
 
         })
+
         dialog.show()
+
     }
 
     private fun createImage(): File? {

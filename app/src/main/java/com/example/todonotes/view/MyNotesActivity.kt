@@ -144,6 +144,20 @@ public class MyNotesActivity : AppCompatActivity(){
     private fun bindView() {
         fabAddNotes = findViewById(R.id.fabAddNotes)
         recyclerView = findViewById(R.id.recyclerViewNotes)
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == ADD_NOTES_CODE){
+            val title = data?.getStringExtra(AppConstant.TITLE)
+            val description = data?.getStringExtra(AppConstant.DESCRIPTION)
+            val imagePath = data?.getStringExtra(AppConstant.IMAGE_PATH)
+
+            val notes = Notes(title = title!!, description = description!!, imagePath = imagePath!!, isTaskCompleted = false)
+            addNotesToDb(notes)
+            notesList.add(notes)
+            // now show the data to recycler view
+            recyclerView.adapter?.notifyItemChanged(notesList.size - 1)
+        }
     }
 }

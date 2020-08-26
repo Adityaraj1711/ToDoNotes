@@ -5,4 +5,5 @@ object AppConstant {
     var USER_NAME = "user_name"
     var TITLE = "title"
     var DESCRIPTION = "description"
+    var IMAGE_PATH = "image_path"
 }

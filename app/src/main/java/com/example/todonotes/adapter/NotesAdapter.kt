@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.view.menu.MenuView
+import androidx.appcompat.view.menu.MenuView.ItemView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.todonotes.R
 import com.example.todonotes.clickListener.ItemClickListener
 import com.example.todonotes.db.Notes
@@ -30,6 +33,7 @@ class NotesAdapter(val list: List<Notes>, val itemClickListener: ItemClickListen
         var description = notes.description
         holder.textViewTitle.text = title
         holder.textViewDescription.text = description
+
         holder.itemView.setOnClickListener(object: View.OnClickListener{
             override fun onClick(p0: View?) {
                 itemClickListener.onClick(notes)
@@ -37,7 +41,7 @@ class NotesAdapter(val list: List<Notes>, val itemClickListener: ItemClickListen
         })
 
         holder.checkBoxMarkStatus.isChecked = notes.isTaskCompleted
-
+        Glide.with(holder.itemView).load(notes.imagePath).into(holder.imageView)
         holder.checkBoxMarkStatus.setOnCheckedChangeListener(object: CompoundButton.OnCheckedChangeListener {
             override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
                 Log.d(TAG, isChecked.toString())
@@ -51,6 +55,7 @@ class NotesAdapter(val list: List<Notes>, val itemClickListener: ItemClickListen
         var textViewTitle:TextView = itemView.findViewById(R.id.textViewTitle)
         var textViewDescription: TextView = itemView.findViewById(R.id.textViewDescription)
         var checkBoxMarkStatus: CheckBox = itemView.findViewById(R.id.checkboxMarkStatus)
+        var imageView: ImageView = itemView.findViewById(R.id.imageViewNotes)
     }
 
 }
