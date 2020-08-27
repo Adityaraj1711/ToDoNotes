@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ToDoNotes</string>
+    <string name="msg_fmt">Notification working</string>
 </resources>

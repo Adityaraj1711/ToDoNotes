@@ -5,9 +5,12 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.todonotes.util.PrefConstant
 import com.example.todonotes.R
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.iid.FirebaseInstanceId
 
 class SplashActivity : AppCompatActivity(){
     private val TAG = "SplashActivity"
@@ -21,6 +24,23 @@ class SplashActivity : AppCompatActivity(){
         setContentView(R.layout.activity_splash)
         setupSharedPreferences()
         checkLoginStatus()
+        getFCMToken()
+    }
+
+    private fun getFCMToken() {
+        FirebaseInstanceId.getInstance().instanceId
+                .addOnCompleteListener(OnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.w(TAG, "getInstanceId failed", task.exception)
+                        return@OnCompleteListener
+                    }
+                    // Get new Instance ID token
+                    val token = task.result?.token
+                    // Log and toast
+//                    val msg = getString(R.string.msg_fmt, token)
+                    Log.d(TAG, token.toString())
+                    Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
+                })
     }
 
     private fun setupSharedPreferences() {
