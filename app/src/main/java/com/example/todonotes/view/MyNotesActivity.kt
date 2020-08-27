@@ -192,6 +192,8 @@ public class MyNotesActivity : AppCompatActivity(){
         if(item?.itemId == R.id.blogs){
             Log.d(TAG, "click successful")
             Toast.makeText(this@MyNotesActivity, "New blog will be generated", Toast.LENGTH_LONG).show()
+            val intent = Intent(this@MyNotesActivity, BlogActivity::class.java)
+            startActivity(intent)
         }
         return super.onOptionsItemSelected(item)
     }
