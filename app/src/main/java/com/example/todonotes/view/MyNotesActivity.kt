@@ -6,6 +6,8 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -78,7 +80,7 @@ public class MyNotesActivity : AppCompatActivity(){
                     notesList.add(notes)
                     addNotesToDb(notes)
                 } else {
-                    Toast.makeText(this@MyNotesActivity, "Title or description missing", Toast.LENGTH_SHORT)
+                    Toast.makeText(this@MyNotesActivity, "Title or description missing", Toast.LENGTH_SHORT).show()
                 }
                 dialog.hide()
             }
@@ -180,4 +182,17 @@ public class MyNotesActivity : AppCompatActivity(){
         WorkManager.getInstance().enqueue(request)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item?.itemId == R.id.blogs){
+            Log.d(TAG, "click successful")
+            Toast.makeText(this@MyNotesActivity, "New blog will be generated", Toast.LENGTH_LONG).show()
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }
