@@ -1,5 +1,6 @@
 package com.example.todonotes.onBoarding
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +13,12 @@ import com.example.todonotes.R
 class OnBoardingTwoFragment : Fragment() {
     lateinit var textViewNext : TextView
     lateinit var textViewBack: TextView
+    lateinit var onOptionClick: OnOptionClick
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        onOptionClick = context as OnOptionClick
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -26,5 +33,24 @@ class OnBoardingTwoFragment : Fragment() {
     private fun bindView(view: View) {
         textViewBack = view.findViewById(R.id.tectViewBack)
         textViewNext = view.findViewById(R.id.textViewNext)
+        clickListener()
+    }
+
+    private fun clickListener() {
+        textViewNext.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(p0: View?) {
+                onOptionClick.onOptionNext()
+            }
+        })
+        textViewBack.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(p0: View?) {
+                onOptionClick.onOptionBack()
+            }
+        })
+    }
+
+    interface OnOptionClick {
+        fun onOptionBack()
+        fun onOptionNext()
     }
 }

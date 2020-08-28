@@ -1,5 +1,6 @@
 package com.example.todonotes.onBoarding
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,7 +11,15 @@ import com.example.todonotes.R
 
 class OnBoardingOneFragment : Fragment() {
 
-    lateinit var textViewTitle: TextView
+    lateinit var textViewNext: TextView
+    lateinit var onNextClick: OnNextClick
+
+    // whenever we have interface in fragment and we have to initialize it, then we do that in onAttach
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        onNextClick = context as OnNextClick
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -19,10 +28,25 @@ class OnBoardingOneFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bindView(view)
+        bindViews(view)
     }
 
-    private fun bindView(view: View) {
-        textViewTitle = view.findViewById(R.id.textViewTitle)
+    private fun bindViews(view: View) {
+        textViewNext = view.findViewById(R.id.textViewNext)
+        clickListener()
     }
+
+    private fun clickListener() {
+        textViewNext.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(p0: View?) {
+                onNextClick.onClick()
+            }
+
+        })
+    }
+
+    interface OnNextClick{
+        fun onClick()
+    }
+
 }
