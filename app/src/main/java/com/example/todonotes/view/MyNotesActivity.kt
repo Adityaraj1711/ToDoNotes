@@ -1,5 +1,6 @@
 package com.example.todonotes.view
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -156,7 +157,8 @@ public class MyNotesActivity : AppCompatActivity(){
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == ADD_NOTES_CODE){
+        // run only if the resultCode is ok, in-case of error after pressing back button before putting the data
+        if(requestCode == ADD_NOTES_CODE && resultCode == Activity.RESULT_OK){
             val title = data?.getStringExtra(AppConstant.TITLE)
             val description = data?.getStringExtra(AppConstant.DESCRIPTION)
             val imagePath = data?.getStringExtra(AppConstant.IMAGE_PATH)

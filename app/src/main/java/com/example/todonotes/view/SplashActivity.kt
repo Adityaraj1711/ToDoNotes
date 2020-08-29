@@ -69,6 +69,8 @@ class SplashActivity : AppCompatActivity(){
                 startActivity(intent)
             }
         }
+        // to kill the instance of activity
+        finish()
     }
 
 
