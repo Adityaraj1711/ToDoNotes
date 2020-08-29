@@ -9,4 +9,6 @@ object PrefConstant {
     var FULL_NAME = "full_name"
     @JvmField
     var USER_NAME = "user_name"
+
+    var ON_BOARDED_SUCCESSFULLY = "on_boarded_successfully"
 }

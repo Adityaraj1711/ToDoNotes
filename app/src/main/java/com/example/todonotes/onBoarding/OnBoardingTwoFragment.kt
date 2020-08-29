@@ -11,7 +11,7 @@ import com.example.todonotes.R
 
 
 class OnBoardingTwoFragment : Fragment() {
-    lateinit var textViewNext : TextView
+    lateinit var textViewDone : TextView
     lateinit var textViewBack: TextView
     lateinit var onOptionClick: OnOptionClick
 
@@ -32,14 +32,14 @@ class OnBoardingTwoFragment : Fragment() {
 
     private fun bindView(view: View) {
         textViewBack = view.findViewById(R.id.tectViewBack)
-        textViewNext = view.findViewById(R.id.textViewNext)
+        textViewDone = view.findViewById(R.id.textViewDone)
         clickListener()
     }
 
     private fun clickListener() {
-        textViewNext.setOnClickListener(object : View.OnClickListener{
+        textViewDone.setOnClickListener(object : View.OnClickListener{
             override fun onClick(p0: View?) {
-                onOptionClick.onOptionNext()
+                onOptionClick.onOptionDone()
             }
         })
         textViewBack.setOnClickListener(object : View.OnClickListener{
@@ -51,6 +51,6 @@ class OnBoardingTwoFragment : Fragment() {
 
     interface OnOptionClick {
         fun onOptionBack()
-        fun onOptionNext()
+        fun onOptionDone()
     }
 }
